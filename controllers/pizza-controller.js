@@ -1,9 +1,17 @@
-const { Pizza } = require('../models/Pizza')
+const { Pizza } = require('../models/')
 
 const pizzaController = {
     // get all pizzas
     getAllPizza(req, res){
         Pizza.find({})
+        .populate({
+            path: 'comments',
+            // we dont want to populate the __v field in comments so we use - infront to ignore it
+            select: '-__v'
+        })
+        .select('-__v')
+        // new pizza data will be shown FIRST (DESCENDING ORDER)
+        .sort({_id: -1})
         .then(dbPizzaData => res.json(dbPizzaData))
         .catch(err => {
             console.log(err)
@@ -14,6 +22,11 @@ const pizzaController = {
     getPizzaById({ params}, res){
         // mongooses find one method
         Pizza.findOne({_id: params.id})
+        .populate({
+            path: 'comment',
+            select: '-__v'
+        })
+        .select('-__v')
         .then(dbPizzaData => {
             // if no pizza is found, send 404 error
             if(!dbPizzaData){
