@@ -14,7 +14,7 @@ const PizzaSchema = new Schema({
         type: Date,
         default: Date.now,
         // getter
-        get: (createdAtVal) => dateFormat(createdAtVal)
+        get: createdAtVal => dateFormat(createdAtVal)
     },
     size: {
         type: String,
@@ -42,7 +42,7 @@ const PizzaSchema = new Schema({
 
 // GET TOTAL COUNRS OF COMMENTS AND REPLIES ON RETRIEVEL 
 PizzaSchema.virtual('commentCount').get(function(){
-    return this.comments.length
+    return this.comments.reduce((total, comment) => total + comment.replies.length + 1 + 0)
 })
 
 // C reate the pizza model following the pizza schema outline
