@@ -3,6 +3,7 @@ const { Pizza } = require('../models');
 const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
+      console.log("getAllPizza")
     Pizza.find({})
       .populate({
         path: 'comments',

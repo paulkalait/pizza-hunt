@@ -3,7 +3,8 @@ const dateFormat = require('../utils/dateFormat')
 
 
 // Create schema for pizza model 
-const PizzaSchema = new Schema({
+const PizzaSchema = new Schema(
+    {
     PizzaName: {
         type: String
     },
@@ -42,10 +43,10 @@ const PizzaSchema = new Schema({
 
 // GET TOTAL COUNRS OF COMMENTS AND REPLIES ON RETRIEVEL 
 PizzaSchema.virtual('commentCount').get(function(){
-    return this.comments.reduce((total, comment) => total + comment.replies.length + 1 + 0)
+    return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0)
 })
 
-// C reate the pizza model following the pizza schema outline
+// C reate the pizza model following the pizza schema outlinef
 const Pizza = model('Pizza', PizzaSchema)
 
 module.exports =  Pizza ;
